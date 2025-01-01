@@ -1,13 +1,34 @@
 package com.example.demo.model;
 
-import java.util.List;
+import jakarta.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+import org.springframework.data.annotation.Id;
+
+@Entity
+@Table(name = "books")
+@Document(collection = "books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="rawid", nullable = false,unique = true)
     private Long id;
+
+    @Column(name="title", nullable = false)
     private String title;
+
+    @Column(name="author", nullable = false)
     private String author;
+
+    @Column(name="year", nullable = false)
     private int year;
+
+    @Column(name="price", nullable = false)
     private int price;
+
+    @ElementCollection
+    @Column(name="genres", nullable = false)
     private List<String> genres;
 
     public Book(String title, String author, int year, int price, List<String> genres) {
@@ -16,6 +37,10 @@ public class Book {
         this.year = year;
         this.price = price;
         this.genres = genres;
+    }
+
+    public Book() {
+
     }
 
     public Long getId() {
