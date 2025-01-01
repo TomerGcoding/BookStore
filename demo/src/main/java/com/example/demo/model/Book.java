@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
 @Document(collection = "books")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @jakarta.persistence.Id
     @Column(name="rawid", nullable = false,unique = true)
     private Long id;
 
