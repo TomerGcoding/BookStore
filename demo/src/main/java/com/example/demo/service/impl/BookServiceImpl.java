@@ -9,7 +9,6 @@ import com.example.demo.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -46,7 +45,7 @@ public class BookServiceImpl implements BookService {
                     .filter(book -> priceLessThan == null || book.getPrice() < priceLessThan)
                     .filter(book -> yearBiggerThan == null || book.getYear() > yearBiggerThan)
                     .filter(book -> yearLessThan == null || book.getYear() < yearLessThan)
-                    .filter(book -> genresList == null || Arrays.asList(book.getGenres()).containsAll(genresList))
+                    .filter(book -> genresList == null || List.of(book.getGenres().split(",")).containsAll(genresList))
                     .map(book -> BookMapper.mapToBookDto(book))
                     .toList();
         }
@@ -57,7 +56,7 @@ public class BookServiceImpl implements BookService {
                     .filter(book -> priceLessThan == null || book.getPrice() < priceLessThan)
                     .filter(book -> yearBiggerThan == null || book.getYear() > yearBiggerThan)
                     .filter(book -> yearLessThan == null || book.getYear() < yearLessThan)
-                    .filter(book -> genresList == null || Arrays.asList(book.getGenres()).containsAll(genresList))
+                    .filter(book -> genresList == null || List.of(book.getGenres().split(",")).containsAll(genresList))
                     .map(book -> BookMapper.mapToBookDto(book))
                     .toList();
         }

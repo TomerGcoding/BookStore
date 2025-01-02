@@ -2,10 +2,13 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.BookDto;
 import com.example.demo.model.Book;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 
 public class BookMapper {
+
+    private static Gson gson = new Gson();
 
     public static BookDto mapToBookDto(Book book) {
         return new BookDto(book.getRawid(),
@@ -13,7 +16,7 @@ public class BookMapper {
                 book.getAuthor(),
                 book.getYear(),
                 book.getPrice(),
-                Arrays.stream(book.getGenres().split(",")).toList());
+                Arrays.asList(book.getGenres().split(",")));
     }
 
     public static Book mapToBook(BookDto bookDto) {
@@ -22,6 +25,6 @@ public class BookMapper {
                 bookDto.getAuthor(),
                 bookDto.getYear(),
                 bookDto.getPrice(),
-                bookDto.getGenres().toString());
+                gson.toJson(bookDto.getGenres()));
     }
 }

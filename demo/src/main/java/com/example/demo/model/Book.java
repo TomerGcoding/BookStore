@@ -10,6 +10,8 @@ import org.bson.json.JsonObject;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
