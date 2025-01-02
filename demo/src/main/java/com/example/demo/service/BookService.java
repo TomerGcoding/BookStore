@@ -1,52 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Book;
-import com.example.demo.repository.mongo.MongoBookRepository;
-import com.example.demo.repository.postgres.PostgresBookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.Optional;
+import com.example.demo.dto.BookDto;
 
-@Service
-public class BookService {
+import java.util.List;
 
-    private static final String POSTGRES = "POSTGRES";
-    private static final String MONGO = "MONGO";
+public interface BookService {
 
-    @Autowired
-    private PostgresBookRepository postgresBookRepository;
+    List<BookDto> findAll();
 
-    @Autowired
-    private MongoBookRepository mongoBookRepository;
+    List<BookDto> findByFilter(String author,Integer priceBiggerThan,Integer priceLessThan, Integer yearBiggerThan,Integer yearLessThan, String genres, String persistenceMethod);
 
-    public Book saveBook(Book book) {
-        if(postgresBookRepository.findByTitle(book.getTitle()).isPresent()){
-            return null;
-        }
-        book.setId(getBooksCount(POSTGRES) + 1L);
-        Book savedBook = postgresBookRepository.save(book);
-        mongoBookRepository.save(book); // Ensure MongoDB has the same data
-        return savedBook;
-    }
+    BookDto findById(Integer id,String persistenceMethod);
 
-    public Optional<Book> getBookById(Long id, String presistenceMethod){
-        if(presistenceMethod.equals(POSTGRES)){
-            return postgresBookRepository.findById(id);
-        }else if(presistenceMethod.equals(MONGO)){
-            return mongoBookRepository.findById(id);
-        }
-        return Optional.empty();
-    }
+    BookDto createBook(BookDto bookDto);
 
-    public Integer getBooksCount(String presistenceMethod){
-        if(presistenceMethod.equals(POSTGRES)){
-            return (int) postgresBookRepository.count();
-        }else if(presistenceMethod.equals(MONGO)){
-            return (int) mongoBookRepository.count();
-        }
-        return 0;
-    }
+    BookDto updatePrice(Integer id,Integer price);
 
-
-
+    void deleteBook(Integer id);
 }
