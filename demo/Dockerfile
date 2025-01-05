@@ -5,7 +5,7 @@ FROM openjdk:21
 WORKDIR /app
 
 # Copy the JAR file into the container at /app
-COPY out/artifacts/demo_jar/demo.jar /app/demo.jar
+COPY target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 
 # Specify the command to run the JAR file
 CMD ["java", "-jar", "demo.jar"]

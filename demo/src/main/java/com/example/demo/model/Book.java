@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.mapper.GenresConverter;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class Book {
 
     private Integer price;
 
-    private String genres;
+    @Convert(converter = GenresConverter.class)
+    private String[] genres;
 
 }

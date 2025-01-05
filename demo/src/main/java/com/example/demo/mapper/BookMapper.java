@@ -16,7 +16,7 @@ public class BookMapper {
                 book.getAuthor(),
                 book.getYear(),
                 book.getPrice(),
-                Arrays.asList(book.getGenres().split(",")));
+                Arrays.stream(book.getGenres()).toList());
     }
 
     public static Book mapToBook(BookDto bookDto) {
@@ -25,6 +25,6 @@ public class BookMapper {
                 bookDto.getAuthor(),
                 bookDto.getYear(),
                 bookDto.getPrice(),
-                gson.toJson(bookDto.getGenres()));
+                bookDto.getGenres().toArray(new String[0]));
     }
 }

@@ -39,25 +39,23 @@ public class BookServiceImpl implements BookService {
                                       String persistenceMethod) {
         List<String> genresList = genres != null ? List.of(genres.split(",")) : null;
         if(persistenceMethod.equals(POSTGRES_DB)) {
-            return postgresBookRepository.findAll().stream()
+            return postgresBookRepository.findAll().stream().map(BookMapper::mapToBookDto)
                     .filter(book -> author == null || book.getAuthor().equals(author))
                     .filter(book -> priceBiggerThan == null || book.getPrice() > priceBiggerThan)
                     .filter(book -> priceLessThan == null || book.getPrice() < priceLessThan)
                     .filter(book -> yearBiggerThan == null || book.getYear() > yearBiggerThan)
                     .filter(book -> yearLessThan == null || book.getYear() < yearLessThan)
-                    .filter(book -> genresList == null || List.of(book.getGenres().split(",")).containsAll(genresList))
-                    .map(book -> BookMapper.mapToBookDto(book))
+                    .filter(book -> genresList == null || book.getGenres().containsAll(genresList))
                     .toList();
         }
         else if (persistenceMethod.equals(MONGO_DB)) {
-            return mongoBookRepository.findAll().stream()
+            return mongoBookRepository.findAll().stream().map(book -> BookMapper.mapToBookDto(book))
                     .filter(book -> author == null || book.getAuthor().equals(author))
                     .filter(book -> priceBiggerThan == null || book.getPrice() > priceBiggerThan)
                     .filter(book -> priceLessThan == null || book.getPrice() < priceLessThan)
                     .filter(book -> yearBiggerThan == null || book.getYear() > yearBiggerThan)
                     .filter(book -> yearLessThan == null || book.getYear() < yearLessThan)
-                    .filter(book -> genresList == null || List.of(book.getGenres().split(",")).containsAll(genresList))
-                    .map(book -> BookMapper.mapToBookDto(book))
+                    .filter(book -> genresList == null || book.getGenres().containsAll(genresList))
                     .toList();
         }
         else {
